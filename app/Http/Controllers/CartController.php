@@ -36,7 +36,7 @@ class CartController extends Controller
             // Add new product to cart
             $cart[$productId] = [
                 'name' => $product->name,
-                'price' => $product->price,
+                'price' => $product->sale_price ?? $product->price,
                 'quantity' => 1,
                 'image' => $product->image,
                 'stock' => $product->stock

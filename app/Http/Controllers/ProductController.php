@@ -25,10 +25,7 @@ class ProductController extends Controller
         }
 
         if ($search) {
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
-            });
+            $query->whereRaw('MATCH(name, description) AGAINST(? IN BOOLEAN MODE)', [$search]);
         }
 
         $products = $query->orderBy('created_at', 'desc')->paginate(12);

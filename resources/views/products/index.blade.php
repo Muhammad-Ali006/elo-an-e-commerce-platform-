@@ -150,9 +150,6 @@
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: transform 0.3s, box-shadow 0.3s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
         }
         .product-card:hover {
             transform: translateY(-5px);
@@ -172,6 +169,11 @@
             font-weight: bold;
             margin-bottom: 8px;
             color: #333;
+            text-decoration: none;
+            display: block;
+        }
+        .product-name:hover {
+            color: #000;
         }
         .product-description {
             font-size: 14px;
@@ -303,15 +305,17 @@
                         $catKey = $product->category->name;
                         $fallbackPhoto = $categoryImages[$catKey] ?? 'photo-1490481651871-ab68de25d43d';
                     @endphp
-                    <a href="{{ route('products.show', $product->id) }}" class="product-card">
-                        <div class="product-image" style="background-image: url('{{ $product->image ? asset('storage/'.$product->image) : 'https://images.unsplash.com/'.$fallbackPhoto.'?w=400&h=500&fit=crop' }}'); background-size: cover; background-position: center;">
-                            @if($product->is_on_sale)
-                                <div class="sale-badge">-{{ $product->discount_percent }}%</div>
-                            @endif
-                        </div>
+                    <div class="product-card">
+                        <a href="{{ route('products.show', $product->id) }}">
+                            <div class="product-image" style="background-image: url('{{ $product->image ? asset('storage/'.$product->image) : 'https://images.unsplash.com/'.$fallbackPhoto.'?w=400&h=500&fit=crop' }}'); background-size: cover; background-position: center;">
+                                @if($product->is_on_sale)
+                                    <div class="sale-badge">-{{ $product->discount_percent }}%</div>
+                                @endif
+                            </div>
+                        </a>
                         <div class="product-info">
                             <div class="product-category">{{ $product->category->name }}</div>
-                            <div class="product-name">{{ $product->name }}</div>
+                            <a href="{{ route('products.show', $product->id) }}" class="product-name" style="text-decoration:none;color:inherit;">{{ $product->name }}</a>
                             <div class="product-description">{{ $product->description }}</div>
                             <div class="product-footer">
                                 <div class="product-price">
@@ -322,10 +326,13 @@
                                         Rs {{ number_format($product->price, 2) }}
                                     @endif
                                 </div>
-                                <div class="product-stock">{{ $product->stock }} in stock</div>
+                                <form method="POST" action="{{ route('cart.add', $product->id) }}" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="add-to-cart-btn" {{ $product->stock == 0 ? 'disabled' : '' }} style="background:#000;color:#fff;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-size:13px;font-weight:bold;">{{ $product->stock > 0 ? 'Add to Cart' : 'Out of Stock' }}</button>
+                                </form>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 @endforeach
             </div>
 

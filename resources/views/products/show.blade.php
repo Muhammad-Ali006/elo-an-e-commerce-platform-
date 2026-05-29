@@ -354,21 +354,19 @@
                         </div>
                     </div>
                     
-                    <button 
-<form method="POST" action="{{ route('cart.add', $product->id) }}">
-    @csrf
-    <button 
-        type="submit"
-        class="add-to-cart-btn" 
-        @if($product->stock == 0) disabled @endif>
-        @if($product->stock > 0)
-            Add to Cart
-        @else
-            Out of Stock
-        @endif
-    </button>
-</form>
-                    </button>
+                    <form method="POST" action="{{ route('cart.add', $product->id) }}">
+                        @csrf
+                        <button 
+                            type="submit"
+                            class="add-to-cart-btn" 
+                            @if($product->stock == 0) disabled @endif>
+                            @if($product->stock > 0)
+                                Add to Cart
+                            @else
+                                Out of Stock
+                            @endif
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

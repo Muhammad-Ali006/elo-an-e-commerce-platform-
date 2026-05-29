@@ -38,7 +38,7 @@ A fashion e-commerce platform built with Laravel. Features product catalog, shop
 
 1. Clone the repository
    ```bash
-   git clone <repo-url> elo-app
+   git clone <https://github.com/Muhammad-Ali006/elo-an-e-commerce-platform-> elo-app
    cd elo-app
    ```
 
